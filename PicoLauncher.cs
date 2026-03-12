@@ -38,7 +38,6 @@ namespace PicoLauncherApp
         [DllImport("user32.dll", EntryPoint = "SendMessage")]
         private extern static void SendMessage(IntPtr hWnd, int wMsg, int wParam, int lParam);
 
-        // MÉTODO CLAVE: Extraer recursos del EXE
         private Stream GetResourceStream(string fileName)
         {
             var assembly = Assembly.GetExecutingAssembly();
@@ -62,7 +61,6 @@ namespace PicoLauncherApp
 
             InitializeControls();
 
-            // --- CAMBIO APLICADO: Cargar icono para la barra de tareas ---
             try {
                 using (var s = GetResourceStream("dspico-logo.png")) {
                     if (s != null) {
@@ -72,7 +70,6 @@ namespace PicoLauncherApp
                     }
                 }
             } catch { }
-            // -------------------------------------------------------------
 
             isUpdatingConfig = true;
             LoadConfig();
@@ -329,4 +326,5 @@ namespace PicoLauncherApp
 
         [STAThread] static void Main() { Application.EnableVisualStyles(); Application.Run(new PicoLauncher()); }
     }
+
 }
