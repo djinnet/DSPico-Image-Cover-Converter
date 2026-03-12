@@ -9,6 +9,10 @@ Para compilar usa .Net9 o modifica el .csproj para usar la versión que te plazc
 https://dotnet.microsoft.com/es-es/download/dotnet/9.0
 
 
+Puedes usar el siguiente comando para compilar sobre cmd o cualquiera de sus variantes en función del peso y portabilidad que quieras
+
+dotnet publish -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+
 
 Requiere Magisck para funcionar correctamente
 
