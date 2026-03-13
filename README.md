@@ -14,6 +14,8 @@ Para compilar usa w64devkit
 
 To compile use w64devkit
 
+https://github.com/skeeto/w64devkit
+
 
 Versión Española
 
