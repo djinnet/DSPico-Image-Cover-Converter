@@ -26,3 +26,6 @@ https://imagemagick.org/#gsc.tab=0 - Un saludo a su gran nesfuerzo -
 
 Esto es más un regalo a la comunidad de DSPicom ya que lo considero uno de los mejores launchers, loaders, firmware y flashcard del mundo
 This is more of a gift to the DSPicom community, as I consider it one of the best launchers, loaders, firmware, and flashcards in the world
+
+GRACIAS - THANKS
+https://github.com/LNH-team
