@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.Design;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing.Design;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Timer = System.Windows.Forms.Timer;
 namespace PicoLauncher.Core.Controls;
 
@@ -26,7 +20,8 @@ public class AnimatedLabel : Label
     [Description("Titles displayed and animated by the control.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [Editor(typeof(TitleCollectionEditor), typeof(UITypeEditor))]
-    public TitleCollection Titles { 
+    public TitleCollection Titles
+    {
         get => titles;
     }
 
@@ -47,7 +42,7 @@ public class AnimatedLabel : Label
     public AnimatedLabel()
     {
         InitializeControl();
-        
+
     }
 
     private void InitializeControl()
@@ -58,7 +53,8 @@ public class AnimatedLabel : Label
                  ControlStyles.OptimizedDoubleBuffer |
                  ControlStyles.ResizeRedraw, true);
 
-        titles.Changed += (_, _) => {
+        titles.Changed += (_, _) =>
+        {
             currentTitleIndex = 0;
             RestartAnimation();
             Invalidate();
@@ -71,6 +67,20 @@ public class AnimatedLabel : Label
         frameTimer.Tick += FrameTimer_Tick;
 
         frameTimer.Start();
+    }
+
+    protected override void OnMouseDown(MouseEventArgs e)
+    {
+        base.OnMouseDown(e);
+
+        if(e.Button == MouseButtons.Left)
+        {
+            var form = FindForm();
+            if (form != null)
+            {
+                CoreLauncher.DragWindow(form.Handle);
+            }
+        }
     }
 
     private void RestartAnimation()

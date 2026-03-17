@@ -1,16 +1,9 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Media;
-using System.Linq;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
-namespace PicoLauncher;
+namespace PicoLauncher.Forms;
 
 public class PicoLauncherForm : Form
 {
@@ -136,38 +129,39 @@ public class PicoLauncherForm : Form
         AddLabel(" - CARPETA DE CARÁTULAS ORIGEN", cY);
         cY += 20;
         txtSrc = CreateTextBox(cY, 360);
-        btnBrowseSrc = CreateSmallFolderButton(395, cY, "src"); 
+        btnBrowseSrc = CreateSmallFolderButton(395, cY, "src");
         cY += 45;
 
         AddLabel(" - CARPETA DE DESTINO (DSPICO)", cY);
         cY += 20;
         txtDst = CreateTextBox(cY, 360);
-        btnBrowseDst = CreateSmallFolderButton(395, cY, "dst"); 
+        btnBrowseDst = CreateSmallFolderButton(395, cY, "dst");
         cY += 45;
 
         chkClean = CreateCheckBox("Limpiar carátulas sin ROM detectada", 30, cY);
-        this.Controls.Add(chkClean); 
+        this.Controls.Add(chkClean);
         cY += 32;
 
-        lblRomsTitle = AddLabel(" - CARPETA DE ROMS (MODO LIMPIEZA)", cY); 
+        lblRomsTitle = AddLabel(" - CARPETA DE ROMS (MODO LIMPIEZA)", cY);
         cY += 20;
         txtRoms = CreateTextBox(cY, 360);
-        btnBrowseRoms = CreateSmallFolderButton(395, cY, "roms"); 
+        btnBrowseRoms = CreateSmallFolderButton(395, cY, "roms");
         cY += 45;
 
         chkOpenDir = CreateCheckBox("Abrir destino al finalizar", 30, cY);
-        this.Controls.Add(chkOpenDir); 
+        this.Controls.Add(chkOpenDir);
         cY += 28;
 
         chkOverwrite = CreateCheckBox("Forzar sobreescritura de archivos", 30, cY);
-        this.Controls.Add(chkOverwrite); 
+        this.Controls.Add(chkOverwrite);
         cY += 32;
 
-        pbPreview = new PictureBox { 
-            Size = new Size(150, 150), 
-            Location = new Point((this.ClientSize.Width - 150) / 2, cY), 
-            SizeMode = PictureBoxSizeMode.Zoom, 
-            BackColor = Color.Transparent 
+        pbPreview = new PictureBox
+        {
+            Size = new Size(150, 150),
+            Location = new Point((this.ClientSize.Width - 150) / 2, cY),
+            SizeMode = PictureBoxSizeMode.Zoom,
+            BackColor = Color.Transparent
         };
         this.Controls.Add(pbPreview); cY += 160;
 
@@ -176,13 +170,15 @@ public class PicoLauncherForm : Form
         panelBarra.Controls.Add(luzBarra);
         this.Controls.Add(panelBarra); cY += 15;
 
-        lblStatus = new Label { 
-            Text = "SISTEMA LISTO", 
-            Location = new Point(0, cY), 
-            Size = new Size(460, 20), 
-            TextAlign = ContentAlignment.MiddleCenter, 
-            ForeColor = Color.Silver, 
-            Font = new Font("Consolas", 8) };
+        lblStatus = new Label
+        {
+            Text = "SISTEMA LISTO",
+            Location = new Point(0, cY),
+            Size = new Size(460, 20),
+            TextAlign = ContentAlignment.MiddleCenter,
+            ForeColor = Color.Silver,
+            Font = new Font("Consolas", 8)
+        };
         this.Controls.Add(lblStatus); cY += 25;
 
         btnStart = new Button
@@ -352,16 +348,18 @@ public class PicoLauncherForm : Form
         return cb;
     }
 
-    private Label AddLabel(string txt, int y) { 
-        Label l = new Label { 
-            Text = txt, 
-            Location = new Point(30, y), 
-            Size = new Size(400, 18), 
-            ForeColor = Color.Gray, 
+    private Label AddLabel(string txt, int y)
+    {
+        Label l = new Label
+        {
+            Text = txt,
+            Location = new Point(30, y),
+            Size = new Size(400, 18),
+            ForeColor = Color.Gray,
             Font = new Font("Segoe UI", 7, FontStyle.Bold)
-        }; 
-        this.Controls.Add(l); 
-        return l; 
+        };
+        this.Controls.Add(l);
+        return l;
     }
 
     private void UpdateUI()
@@ -383,11 +381,11 @@ public class PicoLauncherForm : Form
             string[] l = File.ReadAllLines(configFile);
             if (l.Length >= 6)
             {
-                txtSrc.Text = l[0]; 
-                txtDst.Text = l[1]; 
+                txtSrc.Text = l[0];
+                txtDst.Text = l[1];
                 txtRoms.Text = l[2];
-                chkClean.Checked = l[3] == "True"; 
-                chkOverwrite.Checked = l[4] == "True"; 
+                chkClean.Checked = l[3] == "True";
+                chkOverwrite.Checked = l[4] == "True";
                 chkOpenDir.Checked = l[5] == "True";
             }
         }

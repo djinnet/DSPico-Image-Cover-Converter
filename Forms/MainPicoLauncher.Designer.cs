@@ -67,7 +67,7 @@ namespace PicoLauncher
             btnMin.ForeColor = Color.White;
             btnMin.Name = "btnMin";
             btnMin.UseVisualStyleBackColor = false;
-            btnMin.Click += btnMin_Click;
+            btnMin.Click += BtnMin_Click;
             // 
             // btnClose
             // 
@@ -78,7 +78,7 @@ namespace PicoLauncher
             btnClose.ForeColor = Color.White;
             btnClose.Name = "btnClose";
             btnClose.UseVisualStyleBackColor = false;
-            btnClose.Click += btnClose_Click;
+            btnClose.Click += BtnClose_Click;
             // 
             // lblOrigin
             // 
@@ -106,7 +106,7 @@ namespace PicoLauncher
             btnBrowseSrc.Name = "btnBrowseSrc";
             btnBrowseSrc.Tag = "src";
             btnBrowseSrc.UseVisualStyleBackColor = false;
-            btnBrowseSrc.Click += btnBrowseSrc_Click;
+            btnBrowseSrc.Click += BtnBrowse_Click;
             // 
             // lbldest
             // 
@@ -147,7 +147,7 @@ namespace PicoLauncher
             btnBrowseRoms.Name = "btnBrowseRoms";
             btnBrowseRoms.Tag = "roms";
             btnBrowseRoms.UseVisualStyleBackColor = false;
-            btnBrowseRoms.Click += btnBrowseRoms_Click;
+            btnBrowseRoms.Click += BtnBrowse_Click;
             // 
             // chkOpenDir
             // 
@@ -186,7 +186,7 @@ namespace PicoLauncher
             btnStart.ForeColor = Color.Black;
             btnStart.Name = "btnStart";
             btnStart.UseVisualStyleBackColor = false;
-            btnStart.Click += btnStart_Click;
+            btnStart.Click += BtnStart_Click;
             // 
             // txtDest
             // 
@@ -206,9 +206,9 @@ namespace PicoLauncher
             resources.ApplyResources(btnBrowseDest, "btnBrowseDest");
             btnBrowseDest.ForeColor = Color.White;
             btnBrowseDest.Name = "btnBrowseDest";
-            btnBrowseDest.Tag = "src";
+            btnBrowseDest.Tag = "dest";
             btnBrowseDest.UseVisualStyleBackColor = false;
-            btnBrowseDest.Click += btnBrowseDest_Click;
+            btnBrowseDest.Click += BtnBrowse_Click;
             // 
             // progressBar
             // 

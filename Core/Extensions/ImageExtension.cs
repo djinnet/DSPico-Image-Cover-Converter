@@ -1,11 +1,4 @@
-﻿using PicoLauncher.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PicoLauncher.Core.Extensions;
+﻿namespace PicoLauncher.Core.Extensions;
 
 public static class ImageExtension
 {
@@ -36,6 +29,6 @@ public static class ImageExtension
             .EnumerateFiles(path)
             .Where(file => extensions.Contains(Path.GetExtension(file)))];
         }
-        
+
     }
 }

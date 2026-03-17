@@ -1,4 +1,5 @@
 ﻿using PicoLauncher.Core;
+using PicoLauncher.Core.Enums;
 using PicoLauncher.Core.Models;
 
 namespace PicoLauncher
@@ -24,9 +25,14 @@ namespace PicoLauncher
         public MainPicoLauncher()
         {
             InitializeComponent();
+            this.MouseDown += MainPicoLauncher_MouseDown;
             UpdateUI();
         }
 
+        private void MainPicoLauncher_MouseDown(object sender, MouseEventArgs e)
+        {
+            CoreLauncher.DragWindow(this.Handle);
+        }
 
         private void UpdateUI()
         {
@@ -72,34 +78,31 @@ namespace PicoLauncher
             }
         }
 
-        private void btnBrowseSrc_Click(object sender, EventArgs e)
+        private void BtnBrowse_Click(object sender, EventArgs e)
+        {
+            string tag = (sender as Button)?.Tag?.ToString();
+            if (tag == null) return;
+            BtnClick(tag);
+        }
+
+        private void BtnClick(string tag)
         {
             config = CreateConfig();
 
             if (config == null) return;
 
-            CoreLauncher.OpenDialog(txtSrc, Resources.Resources.ConfigurationFilename, config);
+            TextBox targetTextBox = tag switch
+            {
+                "src" => txtSrc,
+                "dest" => txtDest,
+                "roms" => txtRoms,
+                _ => null
+            };
+
+            CoreLauncher.OpenDialog(targetTextBox, Resources.Resources.ConfigurationFilename, config);
         }
 
-        private void btnBrowseDest_Click(object sender, EventArgs e)
-        {
-            config = CreateConfig();
-
-            if (config == null) return;
-
-            CoreLauncher.OpenDialog(txtDest, Resources.Resources.ConfigurationFilename, config);
-        }
-
-        private void btnBrowseRoms_Click(object sender, EventArgs e)
-        {
-            config = CreateConfig();
-
-            if (config == null) return;
-
-            CoreLauncher.OpenDialog(txtRoms, Resources.Resources.ConfigurationFilename, config);
-        }
-
-        private async void btnStart_Click(object sender, EventArgs e)
+        private async void BtnStart_Click(object sender, EventArgs e)
         {
             config = CreateConfig();
             try
@@ -107,10 +110,10 @@ namespace PicoLauncher
                 btnStart.Enabled = false;
                 btnStart.BackColor = Color.DimGray;
                 btnStart.ForeColor = Color.White;
-                var result = await CoreLauncher.Convert(btnStart, lblStatus, progressBar, pbPreview, config);
+                ConversionStatus result = await CoreLauncher.Convert(btnStart, lblStatus, progressBar, pbPreview, config);
                 switch (result)
                 {
-                    case CoreLauncher.ConversionStatus.Success:
+                    case ConversionStatus.Success:
                         {
                             btnStart.Text = "START PROCESS";
                             lblStatus.Text = "SUCCESSFULLY COMPLETED";
@@ -124,13 +127,16 @@ namespace PicoLauncher
                             }
                             break;
                         }
-                    case CoreLauncher.ConversionStatus.NoFilesToProcess:
+                    case ConversionStatus.NoFilesToProcess:
+                        CoreLauncher.PlayCustomSound(Resources.Resources.Remove);
                         lblStatus.Text = "No files to process.";
                         break;
-                    case CoreLauncher.ConversionStatus.InvalidDirectories:
+                    case ConversionStatus.InvalidDirectories:
+                        CoreLauncher.PlayCustomSound(Resources.Resources.Remove);
                         lblStatus.Text = "Invalid directories. Please check your paths.";
                         break;
-                    case CoreLauncher.ConversionStatus.Error:
+                    case ConversionStatus.Error:
+                        CoreLauncher.PlayCustomSound(Resources.Resources.Remove);
                         lblStatus.Text = "An error occurred during conversion.";
                         break;
                 }
@@ -147,12 +153,12 @@ namespace PicoLauncher
             }
         }
 
-        private void btnMin_Click(object sender, EventArgs e)
+        private void BtnMin_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void BtnClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }

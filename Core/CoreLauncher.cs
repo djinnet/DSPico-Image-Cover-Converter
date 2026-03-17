@@ -1,15 +1,10 @@
-﻿using PicoLauncher.Core.Extensions;
+﻿using ImageMagick;
+using PicoLauncher.Core.Enums;
+using PicoLauncher.Core.Extensions;
 using PicoLauncher.Core.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using ImageMagick;
 
 namespace PicoLauncher.Core;
 
@@ -55,18 +50,12 @@ public class CoreLauncher
         }
     }
 
-    public enum ConversionStatus
-    {
-        Success,
-        NoFilesToProcess,
-        InvalidDirectories,
-        Error
-    }
 
-    public static async Task<ConversionStatus> Convert(Button button, Label status,  ProgressBar bar, PictureBox preview,  MConfig config)
+
+    public static async Task<ConversionStatus> Convert(Button button, Label status, ProgressBar bar, PictureBox preview, MConfig config)
     {
-        if (!Directory.Exists(config.SourcePath) || !Directory.Exists(config.DestinationPath)) 
-        { 
+        if (!Directory.Exists(config.SourcePath) || !Directory.Exists(config.DestinationPath))
+        {
             return ConversionStatus.NoFilesToProcess;
         }
 
@@ -78,7 +67,7 @@ public class CoreLauncher
             {
                 return ConversionStatus.NoFilesToProcess;
             }
-            
+
             bar.Value = 0;
             bar.Maximum = toProcess.Count;
             PlayCustomSound(Resources.Resources.Home);
@@ -148,7 +137,7 @@ public class CoreLauncher
 
         foreach (var file in bmps)
         {
-            var matchingRoms = Directory.GetFiles(config.RomsPath, Path.GetFileNameWithoutExtension(file) + ".*");
+            string[] matchingRoms = Directory.GetFiles(config.RomsPath, Path.GetFileNameWithoutExtension(file) + ".*");
             if (matchingRoms.Length == 0)
             {
                 try { File.Delete(file); } catch { }
@@ -177,16 +166,16 @@ public class CoreLauncher
     {
         try
         {
-            if(preview.Image != null)
+            if (preview.Image != null)
             {
-                preview.Invoke((Action)(() => preview.Image.Dispose()));
+                preview.Invoke(() => preview.Image.Dispose());
             }
 
-            using var image = Image.FromFile(file);
-            preview.Invoke((Action)(() =>
+            using Image image = Image.FromFile(file);
+            preview.Invoke(() =>
             {
                 preview.Image = new Bitmap(image);
-            }));
+            });
             return true;
         }
         catch (Exception ex)
@@ -200,10 +189,10 @@ public class CoreLauncher
     {
         try
         {
-            preview.Invoke((Action)(() =>
+            preview.Invoke(() =>
             {
                 preview.Image = Resources.Resources.dspico_Image_logo;
-            }));
+            });
             return true;
         }
         catch (Exception ex)
@@ -218,7 +207,7 @@ public class CoreLauncher
     {
         try
         {
-            using var image = new MagickImage(file);
+            using MagickImage image = new MagickImage(file);
 
             // Resize (the ! forces exact size)
             image.Resize(new MagickGeometry(106, 96)
@@ -293,35 +282,19 @@ public class CoreLauncher
         }
     }
 
-    public static async void AnimateTitle(Control ctrl, string targetText)
+    public static bool SaveConfig(string configFile, MConfig config)
     {
-        ctrl.Text = "";
-        int mid = targetText.Length / 2;
-        for (int i = 0; i <= mid; i++)
+        try
         {
-            int start = Math.Max(0, mid - i);
-            int end = Math.Min(targetText.Length - 1, mid + i);
-            string currentView = targetText.Substring(start, end - start + 1);
-            int padding = (targetText.Length - currentView.Length) / 2;
-            ctrl.Text = new string(' ', padding) + currentView;
-            await Task.Delay(50);
-        }
-        ctrl.Text = targetText;
-    }
-
-    
-
-    public static bool SaveConfig(string configFile, MConfig config) { 
-        try { 
             File.WriteAllLines(configFile, config.ToLines());
             return true;
-        } catch(Exception ex) 
+        }
+        catch (Exception ex)
         {
             Console.WriteLine("Error saving configuration: " + ex.Message);
             return false;
-        } 
+        }
     }
-
 
     public static void PlayCustomSound(Stream s)
     {
@@ -337,13 +310,9 @@ public class CoreLauncher
             };
             player.Play();
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             Console.WriteLine("Error playing sound: " + ex.Message);
         }
     }
-
-
-
-
 }

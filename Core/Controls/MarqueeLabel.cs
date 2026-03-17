@@ -24,7 +24,7 @@ public class MarqueeLabel : Label
     public int TimerInterval = 100;
 
     [Browsable(true)]
-    public  bool AutoStart = true;
+    public bool AutoStart = true;
 
     public MarqueeLabel()
     {
@@ -37,7 +37,7 @@ public class MarqueeLabel : Label
 
     private void Timer_Tick(object sender, EventArgs e)
     {
-        if(RightToLeft == RightToLeft.Yes)
+        if (RightToLeft == RightToLeft.Yes)
         {
             left += offset;
             if (left > Width)

@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PicoLauncher.Forms;
 
 namespace PicoLauncher;
 
 internal class Program
 {
-    [STAThread] 
-    static void Main() {
+    static bool runOldForm = false;
+
+    [STAThread]
+    static void Main()
+    {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        Application.Run(new MainPicoLauncher()); 
+        if (runOldForm)
+        {
+            Application.Run(new PicoLauncherForm());
+        }
+        else
+        {
+            Application.Run(new MainPicoLauncher());
+        }
     }
 }
